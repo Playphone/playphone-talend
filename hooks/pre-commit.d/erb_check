@@ -1,0 +1,16 @@
+#!/bin/bash
+# syntax check puppet .erb files with erb and ruby.
+
+erb_check () {
+  erb_files=$(git status | grep -E 'modified|new file' |
+       awk -F:  '{print $2}' | sort -u | grep '.erb$')
+
+  if which -s erb ; then
+    for erb_file in $erb_files ; do
+      printf '%s\t' $erb_file
+      erb -P -x -T '-' $erb_file | ruby -c || exit 2
+    done
+  else
+    echo "Please install the erb rubygem in your path."
+  fi
+}

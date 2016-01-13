@@ -1,0 +1,15 @@
+#!/bin/bash
+# Test puppet .pp files with puppet-lint.
+
+puppet_lint () {
+  puppet_files=$(git status | grep -E 'modified|new file' |
+       awk -F:  '{print $2}' | sort -u | grep '.pp$')
+
+  if which -s puppet-lint ; then
+    for puppet_file in $puppet_files ; do
+      puppet-lint --no-80chars-check --with-filename $puppet_file || exit 2
+    done
+  else
+    echo "Please install the puppet-lint rubygem in your path."
+  fi
+}

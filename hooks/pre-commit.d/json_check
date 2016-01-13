@@ -1,0 +1,16 @@
+#!/bin/bash
+# syntax check puppet .json files with jsonlint.
+
+json_check () {
+  json_files=$(git status | grep -E 'modified|new file' |
+       awk -F:  '{print $2}' | sort -u | grep '.json$')
+
+  if which -s jsonlint ; then
+    for json_file in $json_files ; do
+      printf '%s\t' $json_file
+      jsonlint -q $json_file || exit 2
+    done
+  else
+    echo "Please install the jsonlint in your path."
+  fi
+}

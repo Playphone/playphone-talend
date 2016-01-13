@@ -1,0 +1,17 @@
+{
+  "name": "playphone-talend",
+  "version": "0.1.0",
+  "author": "Playphone",
+  "summary": "Install a Talend server.",
+  "license": "Apache 2.0",
+  "source": "https://github.com/Playphone/playphone-talend.git",
+  "project_page": "https://github.com/Playphone/playphone-talend",
+  "issues_url": "https://github.com/Playphone/playphone-talend/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_range": ">= 1.0.0"
+    }
+  ]
+}
+

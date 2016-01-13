@@ -1,0 +1,15 @@
+#!/bin/bash
+# Test puppet .pp files with puppet apply --test.
+
+puppet_apply () {
+  puppet_files=$(git status | grep -E 'modified|new file' |
+       awk -F:  '{print $2}' | sort -u | grep '.pp$')
+
+  if which -s puppet ; then
+    for puppet_file in $puppet_files ; do
+      puppet apply --modulepath=private_modules:modules --test $puppet_file || exit 2
+    done
+  else
+    echo "Please install puppet in your path."
+  fi
+}
