@@ -51,7 +51,7 @@ class talend::get(
   $get_hash = merge($defaults,$options)
 
 
-  archive { "${get_hash[name]}":
+  archive { "${get_hash[name]}.${get_hash[extension]}":
     ensure     => present,
     src_target => "${get_hash[download_dir]}",
     url        => "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
