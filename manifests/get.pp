@@ -39,13 +39,11 @@ class talend::get(
   $options = {},
 ) {
 
-  include wget
-
   $defaults = {
-  	url_base      => 'http://localhost',
-  	name          => 'empty',
-  	extension     => 'zip',
-  	download_dir  => '/var/tmp',
+    url_base      => 'http://localhost',
+    name          => 'empty',
+    extension     => 'zip',
+    download_dir  => '/var/tmp',
     extract_dir   => '/var/tmp',
     root_dir      => '',
   }
@@ -55,9 +53,8 @@ class talend::get(
 
   archive { "${get_hash[name]}":
     ensure     => present,
-    src_target => ${get_hash[download_dir]},
+    src_target => "${get_hash[download_dir]}",
     url        => "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
-    target     => ${get_hash[extract_dir]},
+    target     => "${get_hash[extract_dir]}",
   }
-
 }
