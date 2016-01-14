@@ -1,4 +1,4 @@
-# == Class: talend
+# == Class: talend::get
 #
 # Full description of class talend here.
 #
@@ -29,13 +29,36 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Rik Schneider <rik@playphone.com>
 #
 # === Copyright
 #
-# Copyright 2016 Your name here, unless otherwise noted.
+# Copyright 2016 Playphone, Inc, unless otherwise noted.
 #
-class talend {
-  include talend::get
+class talend::get(
+  $options = {},
+) {
+
+  include wget
+
+  $defaults = {
+  	url_base  => 'http://yumrepo.playphone.cc/centos/unbundled',
+  	file_name => 'true',
+  	path      => '/var/tmp',
+
+  }
+
+  $get_hash = merge($defaults,$options)
+
+  notify { "${get_hash[url]}/${get_hash[file_name]}": }
+
+  wget::fetch { "download the talend insaller file":
+    source             => "${get_hash[url]}/${get_hash[file_name]}",
+    destination        => "${get_hash[path]}/${get_hash[file_name]}",
+    timeout            => 0,
+    verbose            => true,
+    nocheckcertificate => true,
+  }
+
 
 }

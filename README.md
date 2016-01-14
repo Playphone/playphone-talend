@@ -15,9 +15,7 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Lets use puppet 3.6.2 or later to install Talend services on a Centos Box.
 
 ## Module Description
 
@@ -40,8 +38,7 @@ management, etc.) this is the time to mention it.
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+The Talend service requires the Oracle JDK version 8.
 
 ### Beginning with talend
 
