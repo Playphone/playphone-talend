@@ -43,8 +43,8 @@ class talend::get(
     url_base      => 'http://localhost',
     name          => 'empty',
     extension     => 'zip',
-    download_dir  => '/var/tmp',
-    extract_dir   => '/var/tmp',
+    download_dir  => '/var/tmp/talend_download',
+    extract_dir   => '/var/tmp/talend_installer',
     root_dir      => '',
   }
 
