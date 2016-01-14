@@ -53,7 +53,7 @@ class talend::get(
   notify { "${get_hash[url]}/${get_hash[file_name]}": }
 
   wget::fetch { "download the talend insaller file":
-    source             => "${get_hash[url]}/${get_hash[file_name]}",
+    source             => "${get_hash[url_base]}/${get_hash[file_name]}",
     destination        => "${get_hash[path]}/${get_hash[file_name]}",
     timeout            => 0,
     verbose            => true,
