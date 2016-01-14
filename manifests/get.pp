@@ -42,23 +42,22 @@ class talend::get(
   include wget
 
   $defaults = {
-  	url_base  => 'http://localhost',
-  	file_name => 'true',
-  	path      => '/var/tmp',
-
+  	url_base      => 'http://localhost',
+  	name          => 'empty',
+  	extension     => 'zip',
+  	download_dir  => '/var/tmp',
+    extract_dir   => '/var/tmp',
+    root_dir      => '',
   }
 
   $get_hash = merge($defaults,$options)
 
-  notify { "${get_hash[url]}/${get_hash[file_name]}": }
 
-  wget::fetch { "download the talend insaller file":
-    source             => "${get_hash[url_base]}/${get_hash[file_name]}",
-    destination        => "${get_hash[path]}/${get_hash[file_name]}",
-    timeout            => 0,
-    verbose            => true,
-    nocheckcertificate => true,
+  archive { "${get_hash[name]}":
+    ensure     => present,
+    src_target => ${get_hash[download_dir]},
+    url        => "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
+    target     => ${get_hash[extract_dir]},
   }
-
 
 }
