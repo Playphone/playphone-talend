@@ -42,7 +42,7 @@ class talend::get(
   include wget
 
   $defaults = {
-  	url_base  => 'http://yumrepo.playphone.cc/centos/unbundled',
+  	url_base  => 'http://localhost',
   	file_name => 'true',
   	path      => '/var/tmp',
 
