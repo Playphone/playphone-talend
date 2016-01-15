@@ -37,5 +37,5 @@
 #
 class talend {
   include talend::get
-
+  include talend::db
 }

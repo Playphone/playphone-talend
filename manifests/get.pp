@@ -1,30 +1,33 @@
 # == Class: talend::get
 #
-# Full description of class talend here.
+# This class, talend::get, pulls in the talend installer and extracts it. 
 #
 # === Parameters
 #
-# Document parameters here.
+# [*options*]
+#   Options is a hash used to override the default settings for this class.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# === Hash Keys
 #
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*url_base*]
+#   The url of the directory where the talend archive file is located. 
+# [*name*]
+#   The base of the name of the installer archive.  This is used with the 
+#   base_url and extension to populate a curl command.
+# [*extension*]
+#    The extension [zip, tar.gz, etc.] describing the archive type.
+# [*download_dir*]
+# [*extract_dir*]
+# [*root_dir*]
+#   Only used if the top directory name in the archive doesn't match
+#   the value of $get_hash[name] 
 #
 # === Examples
 #
-#  class { talend:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#  class { talend::get:
+#    options => {
+#	   name => 'talend_installer',
+#    }
 #  }
 #
 # === Authors
