@@ -30,6 +30,12 @@
 #    }
 #  }
 #
+#
+# === Bugs
+#
+#  archive::download and archive::extract seem to handle names differently.
+#  I may need to split the calls up
+#
 # === Authors
 #
 # Rik Schneider <rik@playphone.com>
