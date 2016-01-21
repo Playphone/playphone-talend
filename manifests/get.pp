@@ -82,10 +82,11 @@ class talend::get(
     verbose     => false,
   }
 
-  wget::fetch { "${get_hash[name]}.${get_hash[extension]}":
+  wget::fetch { "${get_hash[name]}":
     source      =>
       "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
-    destination => "${get_hash[download_dir]}/${get_hash[name]}",
+    destination =>
+      "${get_hash[download_dir]}/${get_hash[name]}.${get_hash[extension]}",
     timeout     => 0,
     verbose     => false,
   }->
