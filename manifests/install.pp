@@ -1,7 +1,7 @@
 # == Class: talend::install
 #
-# This class, talend::install, creates the talend installer config file and 
-# executes it. 
+# This class, talend::install, creates the talend installer config file and
+# executes it.
 #
 # === Parameters
 #
@@ -11,9 +11,9 @@
 # === Hash Keys
 #
 # [*url_base*]
-#   The url of the directory where the talend archive file is located. 
+#   The url of the directory where the talend archive file is located.
 # [*name*]
-#   The base of the name of the installer archive.  This is used with the 
+#   The base of the name of the installer archive.  This is used with the
 #   base_url and extension to populate a curl command.
 # [*extension*]
 #    The extension [zip, tar.gz, etc.] describing the archive type.
@@ -21,13 +21,13 @@
 # [*extract_dir*]
 # [*root_dir*]
 #   Only used if the top directory name in the archive doesn't match
-#   the value of $install_hash[name] 
+#   the value of $install_hash[name]
 #
 # === Examples
 #
 #  class { talend::install:
 #    options => {
-#	   name => 'talend_installer',
+#    name => 'talend_installer',
 #    }
 #  }
 #
@@ -55,12 +55,20 @@ class talend::install(
 
   $install_hash = merge($install_defaults,$install_options)
 
-    file { '/var/tmp/talend_installer/install.txt':
+  case $::osfamily {
+    RedHat:{
+      ensure_packages('rpm-build')
+    }
+  }
+
+  file { '/var/tmp/talend_installer/install.txt':
     ensure  => file,
     mode    => '0664',
     owner   => talend,
     group   => talend,
     content => template('talend/install.txt.erb'),
   }
+
+
 
 }
