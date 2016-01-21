@@ -1,6 +1,6 @@
 {
   "name": "playphone-talend",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Playphone",
   "summary": "Install a Talend server.",
   "license": "Apache 2.0",

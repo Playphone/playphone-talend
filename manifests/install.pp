@@ -60,7 +60,7 @@ class talend::install(
     mode    => '0664',
     owner   => talend,
     group   => talend,
-    content => template('playphone-talend/install.txt.erb'),
+    content => template('talend/install.txt.erb'),
   }
 
 }
