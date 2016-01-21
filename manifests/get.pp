@@ -74,7 +74,7 @@ class talend::get(
     destination => "${get_hash[extract_dir]}/${get_hash[license_file]}",
     timeout     => 0,
     verbose     => false,
-    user        => ${get_hash[license_user]}
+    user        => ${get_hash[license_user]},
     password    => ${get_hash[license_password]}
   }
 
