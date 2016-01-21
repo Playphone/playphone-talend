@@ -29,11 +29,11 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Rik Schneider <rik@playphone.com>
 #
 # === Copyright
 #
-# Copyright 2016 Your name here, unless otherwise noted.
+# Copyright 2016 RIk Schneider for Playphone, unless otherwise noted.
 #
 class talend {
   include talend::get
