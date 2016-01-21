@@ -1,7 +1,7 @@
 # == Class: talend::get
 #
 # This class, talend::get, pulls in the talend installer and license file,
-# then extracts the installer. 
+# then extracts the installer.
 #
 # === Parameters
 #
@@ -11,9 +11,9 @@
 # === Hash Keys
 #
 # [*url_base*]
-#   The url of the directory where the talend archive file is located. 
+#   The url of the directory where the talend archive file is located.
 # [*name*]
-#   The base of the name of the installer archive.  This is used with the 
+#   The base of the name of the installer archive.  This is used with the
 #   base_url and extension to populate a curl command.
 # [*extension*]
 #    The extension [zip, tar.gz, etc.] describing the archive type.
@@ -24,12 +24,14 @@
 #   the value of $get_hash[name]
 # [*license_base_url*]
 # [*license_file*]
+# [*license_user*]
+# [*license_password*]
 #
 # === Examples
 #
 #  class { talend::get:
 #    options => {
-#	   name => 'talend_installer',
+#      name => 'talend_installer',
 #    }
 #  }
 #
@@ -63,28 +65,32 @@ class talend::get(
     # License specific stuff.
     license_url_base => 'http://localhost',
     license_file     => 'talend.license',
-    license_user     => undef,
-    license_password => undef
+    # license_user     => 'test',
+    # license_password => 'password'
   }
 
   $get_hash = merge($defaults,$options)
 
   wget::fetch { "${get_hash[license_file]}":
-    source      => "${get_hash[license_url_base]}/${get_hash[license_file]}",
+    source      =>
+      "${get_hash[license_url_base]}/${get_hash[license_file]}",
     destination => "${get_hash[extract_dir]}/${get_hash[license_file]}",
     timeout     => 0,
     verbose     => false,
-    if has_key($get_hash, 'license_user') {
-      user        => ${get_hash[license_user]},
-      password    => ${get_hash[license_password]}
-    }
   }
 
-  archive { "${get_hash[name]}":
-    ensure     => present,
+  wget::fetch { "${get_hash[name]}":
+    source      =>
+      "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
+    destination => "${get_hash[download_dir]}/${get_hash[name]}",
+    timeout     => 0,
+    verbose     => false,
+  }
+
+  archive::extract  { "${get_hash[name]}":
     src_target => "${get_hash[download_dir]}",
-    url        => "${get_hash[url_base]}/${get_hash[name]}.${get_hash[extension]}",
     target     => "${get_hash[extract_dir]}",
     extension  => "${get_hash[extension]}",
+    root_dir   => "${get_hash[root_dir]}"
   }
 }
