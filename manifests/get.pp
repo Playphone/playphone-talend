@@ -1,6 +1,7 @@
 # == Class: talend::get
 #
-# This class, talend::get, pulls in the talend installer and extracts it. 
+# This class, talend::get, pulls in the talend installer and license file,
+# then extracts the installer. 
 #
 # === Parameters
 #
@@ -20,7 +21,9 @@
 # [*extract_dir*]
 # [*root_dir*]
 #   Only used if the top directory name in the archive doesn't match
-#   the value of $get_hash[name] 
+#   the value of $get_hash[name]
+# [*license_base_url*]
+# [*license_file*]
 #
 # === Examples
 #
@@ -48,16 +51,32 @@ class talend::get(
   $options = {},
 ) {
 
+  include wget
+
   $defaults = {
-    url_base      => 'http://localhost',
-    name          => 'empty',
-    extension     => 'zip',
-    download_dir  => '/var/tmp/talend_download',
-    extract_dir   => '/var/tmp/talend_installer',
-    root_dir      => '',
+    url_base         => 'http://localhost',
+    name             => 'empty',
+    extension        => 'zip',
+    download_dir     => '/var/tmp/talend_download',
+    extract_dir      => '/var/tmp/talend_installer',
+    root_dir         => '',
+    # License specific stuff.
+    license_url_base => 'http://localhost',
+    license_file     => 'talend.license',
+    license_user     => undef,
+    license_password => undef
   }
 
   $get_hash = merge($defaults,$options)
+
+  wget::fetch { "${get_hash[license_file]}":
+    source      => "${get_hash[license_url_base]}/${get_hash[license_file]}",
+    destination => "${get_hash[extract_dir]}/${get_hash[license_file]}",
+    timeout     => 0,
+    verbose     => false,
+    user        => ${get_hash[license_user]}
+    password    => ${get_hash[license_password]}
+  }
 
 
   archive { "${get_hash[name]}":
