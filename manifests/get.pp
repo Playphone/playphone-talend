@@ -88,8 +88,7 @@ class talend::get(
     destination => "${get_hash[download_dir]}/${get_hash[name]}",
     timeout     => 0,
     verbose     => false,
-  }
-
+  }->
   archive::extract  { "${get_hash[name]}":
     src_target => "${get_hash[download_dir]}",
     target     => "${get_hash[extract_dir]}",
