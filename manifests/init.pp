@@ -38,4 +38,5 @@
 class talend {
   include talend::get
   include talend::db
+  include talend::install
 }
