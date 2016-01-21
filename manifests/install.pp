@@ -51,11 +51,6 @@ class talend::install(
 
   $install_defaults = {
     mode          => 'unattended',
-    name          => 'empty',
-    extension     => 'zip',
-    download_dir  => '/var/tmp/talend_download',
-    extract_dir   => '/var/tmp/talend_installer',
-    root_dir      => '',
   }
 
   $install_hash = merge($install_defaults,$install_options)
