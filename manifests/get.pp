@@ -67,6 +67,13 @@ class talend::get(
 
   $get_hash = merge($defaults,$options)
 
+  file { ["${get_hash[download_dir]}", "${get_hash[extract_dir]}"]:
+    ensure => directory,
+    mode   => '0775',
+    owner  => 'root',
+    group  => 'root',
+  }
+
   wget::fetch { "${get_hash[license_file]}":
     source      =>
       "${get_hash[license_url_base]}/${get_hash[license_file]}",
