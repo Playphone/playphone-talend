@@ -24,8 +24,6 @@
 #   the value of $get_hash[name]
 # [*license_base_url*]
 # [*license_file*]
-# [*license_user*]
-# [*license_password*]
 #
 # === Examples
 #
@@ -65,8 +63,6 @@ class talend::get(
     # License specific stuff.
     license_url_base => 'http://localhost',
     license_file     => 'talend.license',
-    # license_user     => 'test',
-    # license_password => 'password'
   }
 
   $get_hash = merge($defaults,$options)
