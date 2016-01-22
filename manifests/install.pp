@@ -48,17 +48,22 @@
 class talend::install(
   $install_options  = {},
   $install_template ='talend/install.txt.erb',
-  $install_command  =
-    'Talend-Tools-Installer-20151214_1327-V6.1.1-linux-installer.run',
+  $config_options     = {},
 ) {
 
   $install_defaults = {
-    mode          => 'unattended',
+    command =>
+    'Talend-Tools-Installer-20151214_1327-V6.1.1-linux-installer.run',
   }
 
   $install_hash = merge($install_defaults,$install_options)
 
-  $get = $talend::get::get_hash
+
+  $config_defaults = {
+    mode          => 'unattended',
+  }
+
+  $config_hash = merge($config_defaults,$config_options)
 
   case $::osfamily {
     RedHat:{
@@ -66,7 +71,9 @@ class talend::install(
     }
   }
 
-  file { "${get[extract_dir]}/install.txt":
+  $install_config = "${talend::get::get_hash[extract_dir]}/install.txt"
+
+  file { $install_config:
     ensure  => file,
     mode    => '0664',
     owner   => talend,
@@ -76,7 +83,7 @@ class talend::install(
 
   exec { 'Install Talend':
     command =>
-      "${install_command} --optionfile=${get[extract_dir]}/install.txt && touch /var/tmp/installed",
+      "${install_options[command]} --optionfile=${install_config} && touch /var/tmp/installed",
     creates => '/var/tmp/installed',
   }
 }
