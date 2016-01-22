@@ -54,6 +54,8 @@ class talend::install(
   $install_defaults = {
     command =>
     'Talend-Tools-Installer-20151214_1327-V6.1.1-linux-installer.run',
+    mysql_url        => 'http://localhost',
+    mysql_jar        => 'mysql-connector-java-5.1.36-bin.jar',
   }
 
   $install_hash = merge($install_defaults,$install_options)
@@ -65,13 +67,13 @@ class talend::install(
 
   $config_hash = merge($config_defaults,$config_options)
 
+  $install_config = "${talend::get::get_hash[extract_dir]}/install.txt"
+
   case $::osfamily {
     RedHat:{
       ensure_packages('rpm-build')
     }
-  }
-
-  $install_config = "${talend::get::get_hash[extract_dir]}/install.txt"
+  }->
 
   file { $install_config:
     ensure  => file,
@@ -83,7 +85,16 @@ class talend::install(
 
   exec { 'Install Talend':
     command =>
-      "${install_options[command]} --optionfile ${install_config} && touch /var/tmp/installed",
+      "${install_hash[command]} --optionfile ${install_config} && touch /var/tmp/installed",
     creates => '/var/tmp/installed',
+    timeout => 900,
+  }->
+
+  wget::fetch { "${install_hash[mysql_jar]}":
+    source      => "${install_hash[mysql_url]}/${install_hash[mysql_jar]}",
+    destination => "${install_hash[jar_dir]}/${install_hash[mysql_jar]}",
+    timeout     => 0,
+    verbose     => false,
   }
+
 }
