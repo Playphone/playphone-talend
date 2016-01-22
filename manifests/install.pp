@@ -73,7 +73,7 @@ class talend::install(
     RedHat:{
       ensure_packages('rpm-build')
     }
-  }->
+  }
 
   file { $install_config:
     ensure  => file,
