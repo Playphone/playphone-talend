@@ -83,7 +83,7 @@ class talend::install(
 
   exec { 'Install Talend':
     command =>
-      "${install_options[command]} --optionfile=${install_config} && touch /var/tmp/installed",
+      "${install_options[command]} --optionfile ${install_config} && touch /var/tmp/installed",
     creates => '/var/tmp/installed',
   }
 }
