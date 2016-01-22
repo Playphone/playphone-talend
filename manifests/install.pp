@@ -46,7 +46,10 @@
 # Copyright 2016 Playphone, Inc, unless otherwise noted.
 #
 class talend::install(
-  $install_options = {},
+  $install_options  = {},
+  $install_template ='talend/install.txt.erb',
+  $install_command  =
+    'Talend-Tools-Installer-20151214_1327-V6.1.1-linux-installer.run',
 ) {
 
   $install_defaults = {
@@ -55,20 +58,25 @@ class talend::install(
 
   $install_hash = merge($install_defaults,$install_options)
 
+  $get = $talend::get::get_hash
+
   case $::osfamily {
     RedHat:{
       ensure_packages('rpm-build')
     }
   }
 
-  file { '/var/tmp/talend_installer/install.txt':
+  file { "${get[extract_dir]}/install.txt":
     ensure  => file,
     mode    => '0664',
     owner   => talend,
     group   => talend,
-    content => template('talend/install.txt.erb'),
+    content => template($install_template),
+  }->
+
+  exec { 'Install Talend':
+    command =>
+      "${install_command} --optionfile=${get[extract_dir]}/install.txt && touch /var/tmp/installed",
+    creates => '/var/tmp/installed',
   }
-
-
-
 }
